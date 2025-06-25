@@ -1,201 +1,196 @@
-# 🚀 Setting Up Docker Inside GitHub Codespaces: A Complete Beginner’s Guide
+# 🚀 DevOps Learning Journey
 
-> *“Imagine coding in the cloud, version-controlling with Git, and containerizing with Docker — all in one place. That’s GitHub Codespaces + Docker for you.”*
+Welcome to my **DevOps Learning Journey** repository — a curated, step-by-step path to mastering DevOps from the ground up. This guide is structured as both a self-study curriculum and a portfolio of practical projects, broken down into folders for each key topic.
 
----
-
-## 🧠 What You’ll Learn
-
-This guide walks you through setting up and running Docker inside a GitHub Codespace. You’ll learn:
-
-* What Docker and Codespaces are
-* Why they work great together
-* How to install and use Docker in a Codespace
-* How to create and run a basic Dockerized app
-* Bonus tips to level up your dev workflow
-
-Let’s go from zero to Dockerized! 🐳
+Whether you're just starting or want to solidify your skills, this repo will help you understand and apply DevOps principles with real-world tools and use cases.
 
 ---
 
-## 🛠️ Prerequisites
+## 📚 Why DevOps?
 
-Make sure you:
-
-✅ Have a **GitHub account**
-✅ Have access to **GitHub Codespaces** (available in Pro, Team, or Enterprise plans)
-✅ Have basic knowledge of Git and terminal commands
-
----
-
-## ⚙️ Step 1: Create a GitHub Repository
-
-Let’s start by creating a playground for Docker.
-
-1. Head to [github.com/new](https://github.com/new)
-2. Name your repo something like `docker-in-codespaces`
-3. Add a README and `.gitignore` (Node, Python, or blank)
-4. Click **"Create repository"**
+DevOps bridges the gap between **development** and **operations**, emphasizing **collaboration**, **automation**, and **continuous delivery**. It’s not just about tools—it's a mindset shift. Mastering DevOps allows you to:
+- Ship faster and more reliably
+- Reduce human error
+- Scale systems efficiently
+- Automate everything
 
 ---
 
-## 💻 Step 2: Open in GitHub Codespaces
+## 🗺️ Roadmap Overview
 
-1. Click the green **"Code"** button in your new repo.
-2. Select **"Codespaces" → "Create codespace on main"**
-3. Wait for a few seconds — GitHub spins up a full VS Code dev environment in the cloud!
-
-You’re now inside a remote, containerized dev machine. Pretty cool, right?
+Each section below corresponds to a folder in this repo (e.g., `01-linux-basics/`, `02-git-basics/`...), containing detailed examples, mini-projects, and notes.
 
 ---
 
-## 🐳 Step 3: Install Docker CLI in Codespaces
+### ✅ `01-linux-basics/` — Master the Command Line
 
-> GitHub Codespaces already runs in a container behind the scenes. But to build and run your *own* Docker containers inside it, we’ll set up Docker manually.
+DevOps runs on Linux. You need to be fluent in the terminal.
 
-### 🧰 Update and Install Docker
+#### Topics:
+- Navigating the filesystem (`cd`, `ls`, `pwd`, `tree`)
+- Managing files (`cp`, `mv`, `rm`, `touch`, `cat`, `nano`)
+- Permissions (`chmod`, `chown`)
+- Networking (`ping`, `netstat`, `ss`, `curl`)
+- Background jobs & processes (`top`, `htop`, `ps`, `kill`)
+- Shell scripting basics
 
-Run the following inside your Codespaces terminal:
-
-```bash
-sudo apt-get update
-sudo apt-get install -y docker.io
-```
-
-Then start and enable Docker:
-
-```bash
-sudo systemctl start docker
-sudo systemctl enable docker
-```
-
-Check if it works:
-
-```bash
-docker --version
-```
-
-✅ You should see something like: `Docker version 24.x.x`
+> 📁 This folder will include example shell scripts and cheat sheets.
 
 ---
 
-## 🧪 Step 4: Test Docker with a Hello World App
+### ✅ `02-git-basics/` — Version Control with Git & GitHub
 
-Let’s test Docker with a simple “Hello World” Node.js script.
+Understand version control workflows and collaboration.
 
-### 1. Create a new file:
+#### Topics:
+- Git basics (`clone`, `add`, `commit`, `push`, `pull`)
+- Branching strategies (`feature`, `main`, `hotfix`)
+- Merging, rebasing, resolving conflicts
+- Writing good commit messages
+- Using GitHub Issues, PRs, and Projects
+- Intro to GitOps (versioning your infrastructure)
 
-```bash
-echo 'console.log("Hello from Docker inside Codespaces!")' > app.js
-```
-
-### 2. Create a Dockerfile:
-
-```Dockerfile
-# Use an official Node base image
-FROM node:18
-
-# Set the working directory
-WORKDIR /app
-
-# Copy files
-COPY . .
-
-# Run the app
-CMD ["node", "app.js"]
-```
-
-### 3. Build and run your Docker image:
-
-```bash
-docker build -t my-docker-app .
-docker run my-docker-app
-```
-
-🎉 Output:
-
-```
-Hello from Docker inside Codespaces!
-```
-
-Boom! You just built and ran your first Docker container **inside GitHub Codespaces**. 👏
+> 📁 This folder will simulate a team environment with sample PRs, merge conflicts, and review examples.
 
 ---
 
-## 🌐 Step 5: Build a Web App in Docker (Optional)
+### ✅ `03-docker/` — Containerization with Docker
 
-Let’s make it more real by spinning up a basic Express web server.
+Learn how to package applications and environments into containers.
 
-### 1. Initialize Node project:
+#### Topics:
+- What is Docker and why use it?
+- Images vs Containers
+- Writing a `Dockerfile`
+- Building and tagging images
+- Using Docker Compose
+- Pushing to Docker Hub
+- Common Docker CLI commands
 
-```bash
-npm init -y
-npm install express
-```
-
-### 2. Create `server.js`:
-
-```js
-const express = require("express");
-const app = express();
-const port = 3000;
-
-app.get("/", (req, res) => res.send("Hello from Express + Docker in Codespaces!"));
-
-app.listen(port, () => console.log(`Server running on port ${port}`));
-```
-
-### 3. Update your Dockerfile:
-
-```Dockerfile
-FROM node:18
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-
-COPY . .
-
-EXPOSE 3000
-
-CMD ["node", "server.js"]
-```
-
-### 4. Rebuild and run:
-
-```bash
-docker build -t express-docker-app .
-docker run -p 3000:3000 express-docker-app
-```
-
-Now click **“Ports”** tab at the bottom of your Codespace and **forward port 3000** to preview the app.
+> 📁 This folder will include containerized Node.js, Python, and static apps.
 
 ---
 
-## 🧹 Bonus: Use a `.devcontainer` for Automation
+### ✅ `04-github-actions-cicd/` — Continuous Integration & Delivery
 
-Want Docker and other dev tools preinstalled every time you open a Codespace?
+Automate your testing and deployment workflows.
 
-Add a `.devcontainer/devcontainer.json` file:
+#### Topics:
+- What is CI/CD?
+- Writing GitHub Actions workflows (`.github/workflows/`)
+- Linting, testing, and building on push
+- Secrets management
+- Deploying to a cloud server
+- Matrix builds and job strategies
 
-```json
-{
-  "name": "Docker Dev",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "features": {
-    "docker-in-docker": "latest"
-  },
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y docker.io"
-}
-```
-
-This automates your environment setup. No more typing `apt-get` manually!
+> 📁 Sample workflows for JS, Python, and Docker apps will be included.
 
 ---
 
-## 🪄 Pro Tips
+### ✅ `05-infrastructure-as-code/` — IaC with Terraform
 
-* Use Git to version control your Dockerfiles.
-* Use GitHub Actions to build/push Docker images automatically.
-* Use Docker Compose for multi-container projects (like backend + database).
+Manage infrastructure through code. No more clicking through cloud UIs.
+
+#### Topics:
+- Terraform basics: providers, resources, variables
+- Provisioning EC2, S3, VPC on AWS
+- Reusable modules
+- State files and remote backends
+- Plan, apply, and destroy safely
+
+> 📁 Examples will include AWS deployments (with `terraform.tf` files and diagrams).
+
+---
+
+### ✅ `06-cloud-platforms/` — Getting Hands-On with the Cloud
+
+Choose a cloud platform: AWS (recommended), Azure, or GCP.
+
+#### Topics:
+- Compute (EC2, Lambda)
+- Storage (S3, EBS)
+- IAM (users, roles, permissions)
+- VPC & Networking (subnets, security groups)
+- Billing and cost estimation
+
+> 📁 This folder will contain provisioning scripts and cloud setup examples.
+
+---
+
+### ✅ `07-kubernetes-basics/` — Orchestration with Kubernetes
+
+Master container orchestration with K8s.
+
+#### Topics:
+- Pods, Deployments, ReplicaSets
+- Services and Ingress
+- ConfigMaps and Secrets
+- Minikube or KIND for local clusters
+- Helm basics
+
+> 📁 Example K8s deployments and real-world cluster setups.
+
+---
+
+### ✅ `08-monitoring-logging/` — Observability Stack
+
+Keep your systems healthy and traceable.
+
+#### Topics:
+- Metrics with Prometheus
+- Visualization with Grafana
+- Logs with Loki or ELK
+- Health checks, alerts, uptime tracking
+
+> 📁 Example dashboards, Prometheus scrapers, and Grafana templates.
+
+---
+
+## 🌟 Bonus Projects (Coming Soon)
+
+| Folder | Project |
+|--------|---------|
+| `projects/static-site-cicd/` | Deploy a static site with CI/CD and custom domain |
+| `projects/infra-code-saas/` | Full-stack app deployed via Terraform |
+| `projects/k8s-observability/` | Monitor a K8s cluster using Prometheus & Grafana |
+
+---
+
+## 🛠️ Tooling Checklist
+
+Here are the tools you'll use throughout the journey:
+
+| Category | Tool |
+|----------|------|
+| OS / Shell | Linux, Bash |
+| VCS | Git, GitHub |
+| Containers | Docker, Docker Compose |
+| CI/CD | GitHub Actions |
+| IaC | Terraform |
+| Cloud | AWS (EC2, S3, IAM, etc.) |
+| Orchestration | Kubernetes |
+| Monitoring | Prometheus, Grafana, Loki |
+
+---
+
+## 👨‍💻 Contribution & Updates
+
+I’m actively working through these steps, committing progress as I go. You can fork this repo to follow along or adapt it to your own journey.
+
+> 💬 PRs, suggestions, and issues welcome!
+
+---
+
+## 🧠 Stay Connected
+
+If you’re following along or building your own DevOps journey, let’s connect!  
+Find me on [LinkedIn](#), [X](#), or [Dev.to](#) and tag your repo/blog with **#DevOpsJourney**.
+
+---
+
+## 🚀 Let's Go!
+
+Check out the first step: [`01-linux-basics/`](./01-linux-basics/)
+
+---
+
